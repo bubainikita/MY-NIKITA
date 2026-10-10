@@ -1,0 +1,57 @@
+
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NIKITA AI</title>
+<style>
+body{margin:0;background:#090b16;color:white;font-family:Arial,sans-serif;display:flex;justify-content:center;min-height:100vh}
+.app{width:100%;max-width:420px;padding:24px;box-sizing:border-box;text-align:center}
+.cat{font-size:65px;margin-top:35px}
+h1{color:#b8a5ff;letter-spacing:4px}
+p{color:#c6c7d5}
+.chat{background:#171a2c;border-radius:18px;padding:16px;margin:25px 0;text-align:left;min-height:100px}
+input{width:65%;padding:13px;border:0;border-radius:12px;background:#252941;color:white}
+button{padding:13px;border:0;border-radius:12px;background:#9a83ff;color:#111;font-weight:bold;margin:4px}
+#reply{white-space:pre-wrap}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="cat">🐈‍⬛</div>
+<h1>NIKITA AI</h1>
+<p>Your personal AI companion ✨</p>
+<div class="chat">
+<strong>💜 NIKITA</strong>
+<p id="reply">হ্যালো! ❤️ আমি NIKITA। আমাকে কী জিজ্ঞেস করবে?</p>
+</div>
+<input id="msg" placeholder="এখানে লেখো...">
+<button onclick="send()">Send</button>
+<br><br>
+<button onclick="voice()">🎙️ Speak</button>
+<p id="status">তোমার কথা শোনার জন্য প্রস্তুত।</p>
+</div>
+<script>
+function send(){
+let v=document.getElementById('msg').value.trim();
+if(!v)return;
+document.getElementById('reply').textContent=
+'তুমি বলেছ: '+v+'\n\nহ্যালো! ❤️ আমি NIKITA ডেমো।';
+document.getElementById('msg').value='';
+}
+function voice(){
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+if(!SR){document.getElementById('status').textContent='এই ব্রাউজারে voice recognition পাওয়া যাচ্ছে না।';return;}
+let r=new SR();r.lang='bn-IN';
+document.getElementById('status').textContent='শুনছি...';
+r.onresult=e=>{
+document.getElementById('msg').value=e.results[0][0].transcript;
+send();
+};
+r.onerror=()=>document.getElementById('status').textContent='আবার চেষ্টা করো।';
+r.start();
+}
+</script>
+</body>
+</html>
